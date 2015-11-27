@@ -125,7 +125,7 @@ class @ac_windows_dllexport@ PerExpandData {
   }
 
  private:
-#ifdef _MSC_VER
+#if (defined( _MSC_VER ) && !defined(HAVE_UNORDERED_MAP)) 
   typedef @ac_cv_cxx_hash_map_class@<const char*, const void*, StringHash> DataMap;
 #else
   struct DataEq {
