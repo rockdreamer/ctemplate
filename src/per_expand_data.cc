@@ -42,7 +42,7 @@ namespace ctemplate {
 
 using std::string;
 
-#ifndef _MSC_VER
+#if !(defined( _MSC_VER ) && !defined(HAVE_UNORDERED_MAP)) 
 bool PerExpandData::DataEq::operator()(const char* s1, const char* s2) const {
   return ((s1 == 0 && s2 == 0) ||
           (s1 && s2 && *s1 == *s2 && strcmp(s1, s2) == 0));
