@@ -1,6 +1,6 @@
 try_compile(
 	WEAK_ATTRIBUTE_RUNS
-	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/weak_attribute_test
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake/weak_attribute.cpp
 )
 

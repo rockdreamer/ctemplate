@@ -18,7 +18,7 @@
 if(WIN32)
 	try_compile(
 		INTERLOCKED_EXCHANGE_VOLATILE
-		${CMAKE_BINARY_DIR}
+		${CMAKE_BINARY_DIR}/interlocked_exchange_volatile_test
 		${CMAKE_CURRENT_SOURCE_DIR}/cmake/ac_interlocked_exchange.cpp
 	)
 

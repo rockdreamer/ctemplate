@@ -1,11 +1,11 @@
 try_compile(
 	STL_LIVES_UNDER_NO_NAMESPACE
-	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/stl_no_namespace_test
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake/ac_cxx_stl_no_namespace.cpp
 )
 try_compile(
 	STL_LIVES_UNDER_STD_NAMESPACE
-	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/stl_std_namespace_test
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake/ac_cxx_stl_std_namespace.cpp
 )
 
