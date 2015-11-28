@@ -9,7 +9,7 @@ before_install:
   - echo $LC_ALL
 
 before_script:
-  - cd build; cmake ../
+  - mkdir build; cd build; cmake ../
 
 script:
   - make all
