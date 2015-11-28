@@ -124,8 +124,8 @@ set(CTEMPLATE_TESTING_SYMBOLS "TemporaryRegisterTemplate|TemplateDictionaryPeer"
 
 if(CMAKE_COMPILER_IS_GNUCC)
 set(BASE_COMPILER_FLAGS "-Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare")
-set(BASE_LINKER_FLAGS "-export-symbols-regex $(CTEMPLATE_SYMBOLS) -no-undefined")
-set(TESTING_LINKER_FLAGS "-export-symbols-regex $(CTEMPLATE_TESTING_SYMBOLS) -no-undefined")
+set(BASE_LINKER_FLAGS "-export-symbols-regex ${CTEMPLATE_SYMBOLS} -no-undefined")
+set(TESTING_LINKER_FLAGS "-export-symbols-regex ${CTEMPLATE_TESTING_SYMBOLS} -no-undefined")
 endif()
 
 
