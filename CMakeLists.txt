@@ -60,16 +60,25 @@ ac_check_headers(sys/isa_defs.h)          # Solaris 10
 
 ac_check_headers(stdint.h)
 if(HAVE_STDINT_H)
-set(ac_cv_have_stdint_h TRUE)
+set(ac_cv_have_stdint_h 1)
+else()
+set(ac_cv_have_stdint_h 0)
 endif()
 
 ac_check_headers(inttypes.h)
 if(HAVE_INTTYPES_H)
-set(ac_cv_have_inttypes_h TRUE)
+set(ac_cv_have_inttypes_h 1)
+else()
+set(ac_cv_have_inttypes_h 0)
 endif()
 
 include( FindThreads )
+if(CMAKE_USE_PTHREADS_INIT)
+set(HAVE_PTHREAD 1)
+endif()
+
 include(AC_RWLOCK)
+
 include(AC_INTERLOCKED_EXCHANGE_NONVOLATILE)
 include(AC_CXX_STL_NAMESPACE)
 include(AC_DEFINE_GOOGLE_NAMESPACE)
