@@ -9,6 +9,7 @@ before_install:
   - echo $LC_ALL
 
 before_script:
+  - export TEMPLATE_ROOTDIR=$PWD
   - mkdir build; cd build; cmake ../
 
 script:
