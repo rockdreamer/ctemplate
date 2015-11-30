@@ -2,7 +2,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.2.0")
   	set(HAVE_OLD_GNUC_FOR_UNORDERED_MAP_SET TRUE)
   endif()
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.2.0")
+    set(CMAKE_REQUIRED_FLAGS "-std=c++11")
+  endif()
 endif()
+
 
 include(CheckIncludeFileCXX)
 include(CheckCXXSymbolExists)
