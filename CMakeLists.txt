@@ -138,7 +138,9 @@ elseif(COMPILER_SUPPORTS_CXX0X)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 else()
 endif()
-
+if(CMAKE_CXX_COMPILER_ID STREQUAL "XL")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -D__IBMCPP_TR1__")
+endif()
 
 
 # Update this value for every release!  (A:B:C will map to foo.so.(A-C).C.B)

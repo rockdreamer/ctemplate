@@ -69,7 +69,7 @@ template<int size> struct AlignType<0, size> { typedef char result[size]; };
 #define UTIL_GTL_ALIGN_ATTRIBUTE(X) __declspec(align(X))
 #define UTIL_GTL_ALIGN_OF(T) __alignof(T)
 #elif defined(__GNUC__) || defined(__APPLE__) || defined(__INTEL_COMPILER) \
-  || defined(__nacl__)
+  || defined(__nacl__) || (defined(__IBMCPP__) && (__IBMCPP__ >= 1200) )
 #define UTIL_GTL_ALIGN_ATTRIBUTE(X) __attribute__((aligned(X)))
 #define UTIL_GTL_ALIGN_OF(T) __alignof__(T)
 #endif

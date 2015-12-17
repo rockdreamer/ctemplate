@@ -105,7 +105,7 @@ typedef unsigned __int64 uint64;
 # error Need to define UNALIGNED_LOAD32 for this architecture
 #endif
 
-#ifndef CTEMPLATE_BSWAP32_ALREADY_DEFINED
+#if (!defined(CTEMPLATE_BSWAP32_ALREADY_DEFINED)) && (!defined(__IBMCPP__))
 # undef BSWAP32                             // don't leak outside this file
 #else
 # undef CTEMPLATE_BSWAP32_ALREADY_DEFINED   // just cleaning up
