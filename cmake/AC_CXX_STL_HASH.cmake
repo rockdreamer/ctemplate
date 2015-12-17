@@ -82,6 +82,27 @@ if( NOT HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS)
 endif()
 
 if( NOT HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS)
+   check_cxx_source_compiles("#include <ext/hash_map>
+                                 int main() {
+                                   __gnu_cxx::hash_map<int, int> map;
+                                   return 0;
+                                 }"
+                                 HAVE_GNU_EXT_CXX_HASH_MAP)
+       if(HAVE_GNU_EXT_CXX_HASH_MAP)
+               set(HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS TRUE)
+               set(HAVE_HASH_SET TRUE)
+               set(HASH_MAP_H "<ext/hash_map>")
+               set(HASH_SET_H "<ext/hash_set>")
+               set(ac_cv_cxx_hash_map "<ext/hash_map>")
+               set(ac_cv_cxx_hash_set "<ext/hash_set>")
+               set(HASH_NAMESPACE "__gnu_cxx")
+               set(ac_cv_cxx_hash_map_class "__gnu_cxx::hash_map")
+               set(ac_cv_cxx_hash_set_class "__gnu_cxx::hash_set")
+               message( STATUS "Unordered stl container is __gnu_cxx::hash_map")
+       endif()
+endif()
+
+if( NOT HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS)
    check_cxx_source_compiles("#include <hash_map>
                                  int main() {
                                    std::hash_map<int, int> map;
