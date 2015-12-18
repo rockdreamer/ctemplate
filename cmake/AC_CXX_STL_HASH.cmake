@@ -28,6 +28,30 @@ include(CheckIncludeFileCXX)
 include(CheckCXXSymbolExists)
 set(HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS FALSE)
 
+if (CTEMPLATE_BOOST_INCLUDE_DIRECTORY)
+list(APPEND CMAKE_REQUIRED_INCLUDES ${CTEMPLATE_BOOST_INCLUDE_DIRECTORY})
+ check_cxx_source_compiles("#include <boost/unordered_map.hpp>
+                                 int main() {
+                                   boost::unordered_map<int, int> map;
+                                   return 0;
+                                 }"
+                                 HAVE_STD_UNORDERED_MAP)
+ if((HAVE_STD_UNORDERED_MAP) AND (NOT (HAVE_OLD_GNUC_FOR_UNORDERED_MAP_SET)))
+	set(HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS TRUE)
+	set(HAVE_HASH_SET)
+	set(HASH_MAP_H "<boost/unordered_map.hpp>")
+	set(HASH_SET_H "<boost/unordered_set.hpp>")
+	set(ac_cv_cxx_hash_map "<boost/unordered_map.hpp>")
+	set(ac_cv_cxx_hash_set "<boost/unordered_set.hpp>")
+	set(HASH_NAMESPACE "boost")
+	set(HAVE_UNORDERED_MAP TRUE)
+	set(ac_cv_cxx_hash_map_class "boost::unordered_map")
+	set(ac_cv_cxx_hash_set_class "boost::unordered_set")
+	message( STATUS "Unordered stl container is boost::unordered_map from boost headers installed in ${CTEMPLATE_BOOST_INCLUDE_DIRECTORY}")
+endif()
+endif()
+
+if( NOT HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS)
  check_cxx_source_compiles("#include <unordered_map>
                                  int main() {
                                    std::unordered_map<int, int> map;
@@ -46,6 +70,7 @@ set(HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS FALSE)
 	set(ac_cv_cxx_hash_map_class "std::unordered_map")
 	set(ac_cv_cxx_hash_set_class "std::unordered_set")
 	message( STATUS "Unordered stl container is std::unordered_map")
+endif()
 endif()
 
 if( NOT HAVE_SOME_SORT_OF_UNORDERED_CONTAINERS)

@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(ctemplate C CXX)
+option(CTEMPLATE_FORCE_32BITS "Force 32-bit compilation on 64-bit hosts" OFF)
+option(CTEMPLATE_BUILD_STATIC "Create a static library instead of a dll" OFF)
+option(CTEMPLATE_BOOST_INCLUDE_DIRECTORY "if set, use unordered_map from boost")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -125,8 +128,11 @@ set(CTEMPLATE_TESTING_SYMBOLS "TemporaryRegisterTemplate|TemplateDictionaryPeer"
 
 if(CMAKE_COMPILER_IS_GNUCC)
 set(BASE_COMPILER_FLAGS "-Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare")
+if (CTEMPLATE_FORCE_32BITS)
+set(BASE_COMPILER_FLAGS "${BASE_COMPILER_FLAGS} -m32")
 #set(BASE_LINKER_FLAGS "-export-symbols-regex ${CTEMPLATE_SYMBOLS} -no-undefined")
 #set(TESTING_LINKER_FLAGS "-export-symbols-regex ${CTEMPLATE_TESTING_SYMBOLS} -no-undefined")
+endif()
 endif()
 include(CheckCXXCompilerFlag)
 
@@ -224,8 +230,11 @@ if (WIN32)
 	list(APPEND CTEMPLATE_SRCS	src/windows/port.cc	)
 endif()
 
-
+if (CTEMPLATE_BUILD_STATIC)
+add_library(ctemplate STATIC ${CTEMPLATE_SRCS} ${CTEMPLATE_HDRS})
+else()
 add_library(ctemplate SHARED ${CTEMPLATE_SRCS} ${CTEMPLATE_HDRS})
+endif()
 target_link_libraries(ctemplate ${CMAKE_THREAD_LIBS_INIT})
 set_target_properties(ctemplate 
 	PROPERTIES
