@@ -8,6 +8,8 @@ It was originally called Google Templates, due to its origin as the template
 system used for Google search result pages. Now it has a more general name
 matching its community-owned nature.
 
+[![Build Status](https://travis-ci.org/rockdreamer/ctemplate.svg)](https://travis-ci.org/rockdreamer/ctemplate)
+
 Documentation
 -------------
 
