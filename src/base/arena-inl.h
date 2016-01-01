@@ -102,12 +102,19 @@ template <class T, class C> class ArenaAllocator {
   void deallocate(pointer p, size_type n) {
     arena_->Free(p, n * sizeof(T));
   }
+
   void construct(pointer p, const T & val) {
     new(reinterpret_cast<void*>(p)) T(val);
   }
   void construct(pointer p) {
     new(reinterpret_cast<void*>(p)) T();
   }
+#if (__cplusplus >= 201103L)
+  template< class U, class... Args >
+  void construct( U* p, Args&&... args ) {
+    ::new((void *)p) U(std::forward<Args>(args)...);
+  }
+#endif
   void destroy(pointer p) { p->~T(); }
 
   C* arena(void) const { return arena_; }
