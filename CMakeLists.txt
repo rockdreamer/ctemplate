@@ -6,15 +6,17 @@ option(CTEMPLATE_BOOST_INCLUDE_DIRECTORY "if set, use unordered_map from boost")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# enable folders in Visual Studio
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include ( CheckIncludeFiles )
-include ( CheckIncludeFile )
-include( AC_HEADER_STDC )
-include( AC_CHECK_FUNCS )
-ac_check_funcs( getopt_long getopt )
-include( AC_CHECK_HEADERS )
-ac_check_headers( getopt.h )
-ac_check_headers( utime.h)           # used by unittests to mock file-times
+include(CheckIncludeFiles)
+include(CheckIncludeFile)
+include(AC_HEADER_STDC)
+include(AC_CHECK_FUNCS)
+ac_check_funcs(getopt_long getopt)
+include(AC_CHECK_HEADERS)
+ac_check_headers(getopt.h)
+ac_check_headers(utime.h)           # used by unittests to mock file-times
 
 # These are the types I need.  We look for them in either stdint.h,
 # sys/types.h, or inttypes.h, all of which are part of the default-includes.
@@ -30,13 +32,13 @@ ac_check_types(int)
 ac_check_types(long)
 ac_check_types(unsigned long long)
 if(HAVE_UINT64_T)
-set(ac_cv_uint64 "uint64_t")
+	set(ac_cv_uint64 "uint64_t")
 elseif(HAVE_U_INT64_T)
-set(ac_cv_uint64 "u_int64_t")
+	set(ac_cv_uint64 "u_int64_t")
 elseif(HAVE___INT64)
-set(ac_cv_uint64 "unsigned __int64")
+	set(ac_cv_uint64 "unsigned __int64")
 else()
-set(ac_cv_uint64 "unsigned long long")
+	set(ac_cv_uint64 "unsigned long long")
 endif()
 
 if(WIN32)
@@ -64,31 +66,30 @@ ac_check_headers(sys/isa_defs.h)          # Solaris 10
 
 ac_check_headers(stdint.h)
 if(HAVE_STDINT_H)
-set(ac_cv_have_stdint_h 1)
+	set(ac_cv_have_stdint_h 1)
 else()
-set(ac_cv_have_stdint_h 0)
+	set(ac_cv_have_stdint_h 0)
 endif()
 
 ac_check_headers(inttypes.h)
 if(HAVE_INTTYPES_H)
-set(ac_cv_have_inttypes_h 1)
+	set(ac_cv_have_inttypes_h 1)
 else()
-set(ac_cv_have_inttypes_h 0)
+	set(ac_cv_have_inttypes_h 0)
 endif()
 
 include( FindThreads )
 if(CMAKE_USE_PTHREADS_INIT)
-set(HAVE_PTHREAD 1)
+	set(HAVE_PTHREAD 1)
 endif()
 
 include(AC_RWLOCK)
-
 include(AC_INTERLOCKED_EXCHANGE_NONVOLATILE)
 include(AC_CXX_STL_NAMESPACE)
 include(AC_DEFINE_GOOGLE_NAMESPACE)
 set(CTEMPLATE_NAMESPACE ctemplate)
 ac_define_google_namespace(${CTEMPLATE_NAMESPACE})
-
+set(ac_htmlparser_namespace "ctemplate_htmlparser")
 include(AC_CXX_STL_HASH)
 include(AC_HAVE__ATTRIBUTE__)
 include(WEAK_ATTRIBUTE)
@@ -99,9 +100,6 @@ if(WIN32)
 endif()
 
 set(TMPDIR "${CMAKE_CURRENT_BINARY_DIR}/tmp}")
-
-
-set(ac_htmlparser_namespace "ctemplate_htmlparser")
 
 # These files are auto-generated via generate_fsm.py.  Since we don't want
 # to require python to build ctemplate, we include these in the dist
@@ -127,15 +125,13 @@ set(CTEMPLATE_SYMBOLS "(ctemplate|template_modifiers|BaseArena|UnsafeArena|[^A-Z
 set(CTEMPLATE_TESTING_SYMBOLS "TemporaryRegisterTemplate|TemplateDictionaryPeer")
 
 if(CMAKE_COMPILER_IS_GNUCC)
-set(BASE_COMPILER_FLAGS "-Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare")
-if (CTEMPLATE_FORCE_32BITS)
-set(BASE_COMPILER_FLAGS "${BASE_COMPILER_FLAGS} -m32")
-#set(BASE_LINKER_FLAGS "-export-symbols-regex ${CTEMPLATE_SYMBOLS} -no-undefined")
-#set(TESTING_LINKER_FLAGS "-export-symbols-regex ${CTEMPLATE_TESTING_SYMBOLS} -no-undefined")
+	set(BASE_COMPILER_FLAGS "-Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare")
+	if (CTEMPLATE_FORCE_32BITS)
+		set(BASE_COMPILER_FLAGS "${BASE_COMPILER_FLAGS} -m32")
+	endif()
 endif()
-endif()
-include(CheckCXXCompilerFlag)
 
+include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 if(COMPILER_SUPPORTS_CXX11)
@@ -144,6 +140,7 @@ elseif(COMPILER_SUPPORTS_CXX0X)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 else()
 endif()
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "XL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -D__IBMCPP_TR1__")
 endif()
@@ -248,7 +245,11 @@ set_target_properties(ctemplate
 	COMPILE_FLAGS "${COMMON_CXX_FLAGS} ${BASE_COMPILER_FLAGS}"
 )
 
+if (CTEMPLATE_BUILD_STATIC)
+add_library(ctemplate_nothreads STATIC ${CTEMPLATE_SRCS} ${CTEMPLATE_HDRS})
+else()
 add_library(ctemplate_nothreads SHARED ${CTEMPLATE_SRCS} ${CTEMPLATE_HDRS})
+endif()
 set_target_properties(ctemplate_nothreads 
 	PROPERTIES
 	VERSION ${CTEMPLATE_VERSION}
@@ -263,7 +264,7 @@ target_link_libraries(make_tpl_varnames_h ctemplate_nothreads)
 add_executable(diff_tpl_auto_escape src/diff_tpl_auto_escape.cc)
 target_link_libraries(diff_tpl_auto_escape ctemplate_nothreads)
 
-install(TARGETS ctemplate make_tpl_varnames_h diff_tpl_auto_escape
+install(TARGETS ctemplate ctemplate_nothreads make_tpl_varnames_h diff_tpl_auto_escape
 	RUNTIME DESTINATION bin
 	ARCHIVE DESTINATION ${CTEMPLATE_LIB_INSTALL_DIRECTORY}
 	LIBRARY DESTINATION ${CTEMPLATE_LIB_INSTALL_DIRECTORY}
@@ -308,8 +309,8 @@ install(
 	DESTINATION share/doc/ctemplate-${CTEMPLATE_VERSION}
 )
 
-enable_testing()
 # NOTE: when running tests, we must export this under the environment
 # explicitly as not every CMake version supports this
 set(CTEST_ENVIRONMENT "TEMPLATE_ROOTDIR=${CMAKE_CURRENT_SOURCE_DIR}/")
+enable_testing()
 add_subdirectory(src/tests)
