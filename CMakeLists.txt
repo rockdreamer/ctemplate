@@ -155,7 +155,7 @@ set(CTEMPLATE_VERSION 2.3.0)
 set(CTEMPLATE_SOVERSION 3.0.0)
 set(CTEMPLATE_LIB_INSTALL_DIRECTORY lib)
 set(VERSION ${CTEMPLATE_VERSION})
-set(PACKAGE_STRING "ctemplate ${VERSION}")
+set(PACKAGE_STRING "ctemplate ${CTEMPLATE_VERSION}")
 list(APPEND CTEMPLATE_IN_HEADERS
 	ctemplate/find_ptr.h
 	ctemplate/per_expand_data.h 
@@ -210,9 +210,7 @@ include_directories(src)
 include_directories(prebuilt_fsms)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/src)
 if (CTEMPLATE_BOOST_INCLUDE_DIRECTORY)
-
 	include_directories(${CTEMPLATE_BOOST_INCLUDE_DIRECTORY})
-
 endif()
 
 
@@ -272,20 +270,43 @@ install(TARGETS ctemplate make_tpl_varnames_h diff_tpl_auto_escape
 )
 
 install(
-	FILES ${CTEMPLATE_HDRS}
+	FILES 
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_cache.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_string.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_enums.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_pathops.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_modifiers.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_dictionary.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_dictionary_interface.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_annotator.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_emitter.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_namelist.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/per_expand_data.h
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/str_ref.h
 	DESTINATION include/ctemplate
 )
 
-#docdir = $(prefix)/share/doc/$(PACKAGE)-$(VERSION)
-## This is for HTML and other documentation you want to install.
-## Add your documentation files (in doc/) in addition to these
-## top-level boilerplate files.  Also add a TODO file if you have one.
-#dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README README_windows.txt \
-#	doc/designstyle.css doc/index.html \
-#	doc/howto.html doc/guide.html doc/reference.html \
-#	doc/tips.html doc/example.html doc/auto_escape.html \
-#	doc/xss_resources.html
-
+install(
+	FILES 
+	AUTHORS
+	COPYING
+	ChangeLog
+	INSTALL
+	NEWS
+	README
+	README_windows.txt
+	doc/designstyle.css
+	doc/index.html
+	doc/howto.html
+	doc/guide.html
+	doc/reference.html 
+	doc/tips.html
+	doc/example.html
+	doc/auto_escape.html
+	doc/xss_resources.html
+	DESTINATION share/doc/ctemplate-${CTEMPLATE_VERSION}
+)
 
 # We could also make a library that has the TemplateDictionaryPeer
 # class.  This class is useful for testing (it provides introspection
