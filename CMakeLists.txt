@@ -308,4 +308,8 @@ install(
 	DESTINATION share/doc/ctemplate-${CTEMPLATE_VERSION}
 )
 
+enable_testing()
+# NOTE: when running tests, we must export this under the environment
+# explicitly as not every CMake version supports this
+set(CTEST_ENVIRONMENT "TEMPLATE_ROOTDIR=${CMAKE_CURRENT_SOURCE_DIR}/")
 add_subdirectory(src/tests)

@@ -32,11 +32,6 @@ set_target_properties(ctemplate_testing_nothreads
 	COMPILE_FLAGS "${COMMON_CXX_FLAGS} ${BASE_COMPILER_FLAGS} -DNO_THREADS"
 )
 
-enable_testing()
-# when running tests, we must export this under the environment
-set(CTEST_ENVIRONMENT
-"TEMPLATE_ROOTDIR=${CMAKE_CURRENT_SOURCE_DIR}/")
-
 ######## Compile Tests #######
 add_executable(compile_test 
 	config_for_unittests.h
