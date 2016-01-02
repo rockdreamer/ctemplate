@@ -34,6 +34,7 @@
 
 /* TODO(falmeida): Breaks on NULL characters in the stream. fix.
  */
+#include <config.h>
 
 #include <stdio.h>
 #include <stdlib.h>

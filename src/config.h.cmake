@@ -153,7 +153,9 @@
 #cmakedefine PTHREAD_CREATE_JOINABLE @PTHREAD_CREATE_JOINABLE@
 
 /* Define to 1 if you have the ANSI C header files. */
+#if (!defined(STDC_HEADERS))
 #cmakedefine STDC_HEADERS
+#endif
 
 /* the namespace where STL code like vector<> is defined */
 #cmakedefine STL_NAMESPACE @STL_NAMESPACE@

@@ -44,6 +44,12 @@
 
 #define USING_PORT_CC
 
+/* We rely on _stricmp being present, however, if std=c++0x is defined, the mingw compiler will 
+   go into strict ANSI mode and breat it for us */
+#if (defined(__MINGW32__) || defined(__MINGW64__)) && defined(__STRICT_ANSI__)
+#undef __STRICT_ANSI__
+#endif
+
 #define WIN32_LEAN_AND_MEAN  /* We always want minimal includes */
 #include <windows.h>
 #include <io.h>              /* because we so often use open/close/etc */
@@ -92,8 +98,10 @@
 #define strcasecmp   _stricmp
 #define strncasecmp  _strnicmp
 
+#if !defined(__MINGW32__) && !defined(__MINGW64__) 
 /* Sleep is in ms, on windows */
 #define sleep(secs)  Sleep((secs) * 1000)
+#endif
 
 /* We can't just use _vsnprintf and _snprintf as drop-in-replacements,
  * because they don't always NUL-terminate. :-(  We also can't use the
