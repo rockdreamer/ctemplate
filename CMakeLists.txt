@@ -209,6 +209,12 @@ endif()
 include_directories(src)
 include_directories(prebuilt_fsms)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/src)
+if (CTEMPLATE_BOOST_INCLUDE_DIRECTORY)
+
+	include_directories(${CTEMPLATE_BOOST_INCLUDE_DIRECTORY})
+
+endif()
+
 
 list(APPEND CTEMPLATE_SRCS
 src/per_expand_data.cc
