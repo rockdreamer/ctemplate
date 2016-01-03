@@ -275,6 +275,7 @@
 #include <assert.h>
 #include <string.h>
 #include <vector>
+#include <ctemplate/ctemplate_exports.h>
 #include "base/thread_annotations.h"
 #include "base/macros.h"  // for uint32
 #include "base/util.h"    // for CHECK, etc
