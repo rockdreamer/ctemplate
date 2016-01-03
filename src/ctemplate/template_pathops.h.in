@@ -35,28 +35,28 @@
 
 #include <string>
 
-@ac_windows_dllexport_defines@
+#include <ctemplate/ctemplate_exports.h>
 
 namespace ctemplate {
 
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 const char kCWD[];       // a string that's equivalent to "./"
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 const char kRootdir[];   // a string that's equivalent to "/"
 
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 std::string PathJoin(const std::string& a, const std::string& b);
 
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 bool IsAbspath(const std::string& path);
 
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 bool IsDirectory(const std::string& path);         // checks if path ends with /
 
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 void NormalizeDirectory(std::string* dir);         // adds trailing / if needed
 
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 std::string Basename(const std::string& path);          // everything after last /
 
 // Returns true iff text contains the word as a full word, i.e. delimited by one
@@ -65,7 +65,7 @@ std::string Basename(const std::string& path);          // everything after last
 // the auto-escape mode specified by it.
 // NOTE: This assumes that the word doesn't contain any of the delimiter
 // characters.
-extern @ac_windows_dllexport@
+extern CTEMPLATE_EXPORT
 bool ContainsFullWord(const std::string& text, const std::string& word);
 
 }

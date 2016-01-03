@@ -43,10 +43,10 @@
 #include @ac_cv_cxx_hash_set@
 #include <string>
 #include <vector>
+#include <ctemplate/ctemplate_exports.h>
 #include <ctemplate/template_enums.h>    // for Strip
 #include <ctemplate/template_string.h>   // for StringHash
 
-@ac_windows_dllexport_defines@
 
 namespace ctemplate {
 
@@ -75,7 +75,7 @@ namespace ctemplate {
 //   sanity-checking code to make sure all the templates used by a program
 //   exist and are syntactically correct.
 
-class @ac_windows_dllexport@ TemplateNamelist {
+class CTEMPLATE_EXPORT TemplateNamelist {
   friend class TemporaryRegisterTemplate;
  public:
   // These types should be taken as 'generic' containers.  The only

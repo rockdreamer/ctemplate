@@ -54,13 +54,11 @@
 #include <map>
 #include <string>
 #include <vector>
-
+#include <ctemplate/ctemplate_exports.h>
 #include <ctemplate/str_ref.h>
 #include <ctemplate/template_dictionary_interface.h>
 #include <ctemplate/template_modifiers.h>
 #include <ctemplate/template_string.h>
-
-@ac_windows_dllexport_defines@
 
 @ac_google_start_namespace@
 template <class T, class C> class ArenaAllocator;
@@ -72,7 +70,7 @@ template<typename NormalMap> class small_map_default_init;  // in small_map.h
 namespace ctemplate {
 
 
-class @ac_windows_dllexport@ TemplateDictionary : public TemplateDictionaryInterface {
+class CTEMPLATE_EXPORT TemplateDictionary : public TemplateDictionaryInterface {
  public:
   // name is used only for debugging.
   // arena is used to store all names and values.  It can be NULL (the

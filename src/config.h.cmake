@@ -174,10 +174,6 @@
 
 
 #if defined(_MSC_VER) || defined( __MINGW32__) || defined(__MINGW64__)
-#ifndef CTEMPLATE_DLL_DECL
-# define CTEMPLATE_DLL_DECL  __declspec(dllexport)
-# define CTEMPLATE_DLL_DECL_FOR_UNITTESTS  __declspec(dllimport)
-#endif
 #include "windows/port.h"
 #endif
 

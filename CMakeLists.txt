@@ -9,6 +9,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # enable folders in Visual Studio
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+
 include(CheckIncludeFiles)
 include(CheckIncludeFile)
 include(AC_HEADER_STDC)
@@ -93,11 +94,6 @@ set(ac_htmlparser_namespace "ctemplate_htmlparser")
 include(AC_CXX_STL_HASH)
 include(AC_HAVE__ATTRIBUTE__)
 include(WEAK_ATTRIBUTE)
-
-if(WIN32)
-	set(ac_windows_dllexport "CTEMPLATE_DLL_DECL")
-	set(ac_windows_dllexport_defines "#ifndef CTEMPLATE_DLL_DECL\n# define CTEMPLATE_DLL_DECL  __declspec(dllimport)\n#endif")
-endif()
 
 set(TMPDIR "${CMAKE_CURRENT_BINARY_DIR}/tmp}")
 
@@ -206,6 +202,9 @@ endif()
 include_directories(src)
 include_directories(prebuilt_fsms)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/src)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/)
+
+
 if (CTEMPLATE_BOOST_INCLUDE_DIRECTORY)
 	include_directories(${CTEMPLATE_BOOST_INCLUDE_DIRECTORY})
 endif()
@@ -244,6 +243,10 @@ set_target_properties(ctemplate
 	LINK_FLAGS "${COMMON_LINKER_FLAGS} ${BASE_LINKER_FLAGS}"
 	COMPILE_FLAGS "${COMMON_CXX_FLAGS} ${BASE_COMPILER_FLAGS}"
 )
+set_target_properties(ctemplate PROPERTIES CXX_VISIBILITY_PRESET hidden)
+
+include(GenerateExportHeader)
+generate_export_header(ctemplate EXPORT_FILE_NAME src/ctemplate/ctemplate_exports.h)
 
 if (CTEMPLATE_BUILD_STATIC)
 add_library(ctemplate_nothreads STATIC ${CTEMPLATE_SRCS} ${CTEMPLATE_HDRS})
@@ -255,8 +258,9 @@ set_target_properties(ctemplate_nothreads
 	VERSION ${CTEMPLATE_VERSION}
 	SOVERSION ${CTEMPLATE_SOVERSION}
 	LINK_FLAGS "${COMMON_LINKER_FLAGS} ${BASE_LINKER_FLAGS}"
-	COMPILE_FLAGS "${COMMON_CXX_FLAGS} ${BASE_COMPILER_FLAGS} -DNO_THREADS"
+	COMPILE_FLAGS "${COMMON_CXX_FLAGS} ${BASE_COMPILER_FLAGS} -DNO_THREADS -Dctemplate_EXPORTS"
 )
+set_target_properties(ctemplate_nothreads PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 add_executable(make_tpl_varnames_h src/make_tpl_varnames_h.cc)
 target_link_libraries(make_tpl_varnames_h ctemplate_nothreads)
@@ -264,14 +268,33 @@ target_link_libraries(make_tpl_varnames_h ctemplate_nothreads)
 add_executable(diff_tpl_auto_escape src/diff_tpl_auto_escape.cc)
 target_link_libraries(diff_tpl_auto_escape ctemplate_nothreads)
 
-install(TARGETS ctemplate ctemplate_nothreads make_tpl_varnames_h diff_tpl_auto_escape
+install(TARGETS ctemplate ctemplate_nothreads make_tpl_varnames_h diff_tpl_auto_escape 
 	RUNTIME DESTINATION bin
 	ARCHIVE DESTINATION ${CTEMPLATE_LIB_INSTALL_DIRECTORY}
 	LIBRARY DESTINATION ${CTEMPLATE_LIB_INSTALL_DIRECTORY}
 )
 
+if(WIN32)
+#Install Debug .pdb and .exp files
+
+INSTALL(
+    FILES
+	$<TARGET_FILE_DIR:ctemplate>/ctemplate.pdb
+	$<TARGET_FILE_DIR:ctemplate>/ctemplate.exp
+	$<TARGET_FILE_DIR:ctemplate_nothreads>/ctemplate_nothreads.pdb
+	$<TARGET_FILE_DIR:ctemplate_nothreads>/ctemplate_nothreads.exp
+	DESTINATION lib
+	CONFIGURATIONS Debug RelWithDebInfo
+)
+endif()
+install(
+	PROGRAMS src/template-converter
+	DESTINATION bin
+)
+
 install(
 	FILES 
+	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/ctemplate_exports.h
 	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template.h
 	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_cache.h
 	${CMAKE_CURRENT_BINARY_DIR}/src/ctemplate/template_string.h

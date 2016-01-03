@@ -40,11 +40,11 @@
 #include <sys/types.h>     // for size_t
 #include <string>
 
-@ac_windows_dllexport_defines@
+#include <ctemplate/ctemplate_exports.h>
 
 namespace ctemplate {
 
-class @ac_windows_dllexport@ ExpandEmitter {
+class CTEMPLATE_EXPORT ExpandEmitter {
  public:
   ExpandEmitter() {}
   virtual ~ExpandEmitter() {}
@@ -55,7 +55,7 @@ class @ac_windows_dllexport@ ExpandEmitter {
 };
 
 
-class @ac_windows_dllexport@ StringEmitter : public ExpandEmitter {
+class CTEMPLATE_EXPORT StringEmitter : public ExpandEmitter {
   std::string* const outbuf_;
  public:
   StringEmitter(std::string* outbuf) : outbuf_(outbuf) {}

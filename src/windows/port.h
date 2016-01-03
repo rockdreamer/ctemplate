@@ -40,6 +40,7 @@
 #ifndef CTEMPLATE_WINDOWS_PORT_H_
 #define CTEMPLATE_WINDOWS_PORT_H_
 
+#include <ctemplate/ctemplate_exports.h>
 #ifdef _WIN32
 
 #define USING_PORT_CC
@@ -108,9 +109,9 @@
  * name vsnprintf, since windows defines that (but not snprintf (!)).
  */
 #if !(defined(_MSC_VER) && _MSC_VER >= 1900) && !defined(__MINGW32__) && !defined(__MINGW64__)  /* mingw already defines */
-extern CTEMPLATE_DLL_DECL int snprintf(char *str, size_t size,
+extern CTEMPLATE_EXPORT int snprintf(char *str, size_t size,
                                        const char *format, ...);
-extern int CTEMPLATE_DLL_DECL safe_vsnprintf(char *str, size_t size,
+extern int CTEMPLATE_EXPORT safe_vsnprintf(char *str, size_t size,
                                              const char *format, va_list ap);
 #define vsnprintf(str, size, format, ap)  safe_vsnprintf(str, size, format, ap)
 #define va_copy(dst, src)  (dst) = (src)
@@ -130,10 +131,10 @@ extern int CTEMPLATE_DLL_DECL safe_vsnprintf(char *str, size_t size,
 #include <vector>
 
 namespace ctemplate {
-extern CTEMPLATE_DLL_DECL std::string TmpFile(const char* basename);
-void CTEMPLATE_DLL_DECL CreateOrCleanTestDir(const std::string& dirname);
+extern CTEMPLATE_EXPORT std::string TmpFile(const char* basename);
+void CTEMPLATE_EXPORT CreateOrCleanTestDir(const std::string& dirname);
 }
-void CTEMPLATE_DLL_DECL GetNamelist(const char* testdata_dir,
+void CTEMPLATE_EXPORT GetNamelist(const char* testdata_dir,
                                     std::vector<std::string>* namelist);
 #endif  /* __cplusplus */
 

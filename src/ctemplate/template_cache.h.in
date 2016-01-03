@@ -38,6 +38,7 @@
 #include <string>        // for string
 #include <utility>       // for pair
 #include <vector>        // for vector<>
+#include <ctemplate/ctemplate_exports.h>
 #include <ctemplate/template_emitter.h>  // for ExpandEmitter, etc
 #include <ctemplate/template_enums.h>  // for Strip
 #include <ctemplate/template_string.h>
@@ -48,7 +49,6 @@ class FileStat;
 class Mutex;
 class TemplateCacheUnittest;
 
-@ac_windows_dllexport_defines@
 
 namespace ctemplate {
 
@@ -58,7 +58,7 @@ class TemplateCachePeer;
 class TemplateDictionaryInterface;
 
 // A cache to store parsed templates.
-class @ac_windows_dllexport@ TemplateCache {
+class CTEMPLATE_EXPORT TemplateCache {
  public:
   TemplateCache();
   ~TemplateCache();

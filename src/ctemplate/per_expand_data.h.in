@@ -46,16 +46,16 @@
 #include <string.h>   // for strcmp
 #include <sys/types.h>
 #include @ac_cv_cxx_hash_map@
+#include <ctemplate/ctemplate_exports.h>
 #include <ctemplate/template_string.h>   // for StringHash
 
-@ac_windows_dllexport_defines@
 
 namespace ctemplate {
 
 class TemplateModifier;
 class TemplateAnnotator;
 
-class @ac_windows_dllexport@ PerExpandData {
+class CTEMPLATE_EXPORT PerExpandData {
  public:
   PerExpandData()
       : annotate_path_(NULL),

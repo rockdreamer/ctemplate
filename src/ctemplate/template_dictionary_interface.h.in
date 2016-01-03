@@ -44,9 +44,9 @@
 
 #include <stdlib.h>
 #include <string>
+#include <ctemplate/ctemplate_exports.h>
 #include <ctemplate/template_string.h>
 
-@ac_windows_dllexport_defines@
 
 namespace ctemplate {
 
@@ -58,7 +58,7 @@ const int kIndent = 2;  // num spaces to indent each level -- used with dump
 // templates, the associated set of dictionaries for sections and
 // included templates, and the template filenames to be expanded in
 // place of template-include nodes.
-class @ac_windows_dllexport@ TemplateDictionaryInterface {
+class CTEMPLATE_EXPORT TemplateDictionaryInterface {
  public:
   // TemplateDictionaryInterface destructor
   virtual ~TemplateDictionaryInterface() {}

@@ -54,10 +54,3 @@
 // define CTEMPLATE_DLL_DECL to the empty string.
 
 #include "config.h"
-
-#undef CTEMPLATE_DLL_DECL
-#ifdef CTEMPLATE_DLL_DECL_FOR_UNITTESTS
-# define CTEMPLATE_DLL_DECL  CTEMPLATE_DLL_DECL_FOR_UNITTESTS
-#else
-# define CTEMPLATE_DLL_DECL  // if DLL_DECL_FOR_UNITTESTS isn't defined, use ""
-#endif

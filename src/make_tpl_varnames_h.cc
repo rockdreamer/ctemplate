@@ -55,7 +55,6 @@
 // the files used to compile the dll, we are actually a *client* of
 // the dll, so we don't get to decl anything.
 #include <config.h>
-#undef CTEMPLATE_DLL_DECL
 #include <ctype.h>    // for toupper(), isalnum()
 #include <errno.h>
 #ifdef HAVE_GETOPT_H
