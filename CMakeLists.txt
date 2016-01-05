@@ -111,15 +111,6 @@ set(TMPDIR "${CMAKE_CURRENT_BINARY_DIR}/tmp}")
 #                src/htmlparser/jsparser_fsm.h \
 #                src/tests/statemachine_test_fsm.h
 
-
-# These are the symbols (classes, mostly) we want to export from our library.
-# Note this regexp applies to the *mangled* name, which is why we have to
-# be careful where we want to assert [^A-Za-z].  (Particularly bad on Darwin.)
-# template_modifiers and BaseArena and UnsafeArena perhaps shouldn't be
-# exported, but they're needed -- at least -- for some unittests.
-set(CTEMPLATE_SYMBOLS "(ctemplate|template_modifiers|BaseArena|UnsafeArena|[^A-Za-z]Template[^A-Za-z]|TemplateDictionary|TemplateNamelist|TemplateFromString|TemplateString|TemplateState|[^A-Za-z]Strip[^A-Za-z])")
-set(CTEMPLATE_TESTING_SYMBOLS "TemporaryRegisterTemplate|TemplateDictionaryPeer")
-
 if(CMAKE_COMPILER_IS_GNUCC)
 	set(BASE_COMPILER_FLAGS "-Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare")
 	if (CTEMPLATE_FORCE_32BITS)
@@ -276,17 +267,24 @@ install(TARGETS ctemplate ctemplate_nothreads make_tpl_varnames_h diff_tpl_auto_
 
 if(WIN32)
 #Install Debug .pdb and .exp files
-
-INSTALL(
+	install(
     FILES
 	$<TARGET_FILE_DIR:ctemplate>/ctemplate.pdb
-	$<TARGET_FILE_DIR:ctemplate>/ctemplate.exp
 	$<TARGET_FILE_DIR:ctemplate_nothreads>/ctemplate_nothreads.pdb
+	DESTINATION lib
+	CONFIGURATIONS Debug RelWithDebInfo
+	)
+  if(NOT CTEMPLATE_BUILD_STATIC)
+	install(
+    FILES
+	$<TARGET_FILE_DIR:ctemplate>/ctemplate.exp
 	$<TARGET_FILE_DIR:ctemplate_nothreads>/ctemplate_nothreads.exp
 	DESTINATION lib
 	CONFIGURATIONS Debug RelWithDebInfo
-)
+	)
+  endif()
 endif()
+
 install(
 	PROGRAMS src/template-converter
 	DESTINATION bin
@@ -318,8 +316,7 @@ install(
 	ChangeLog
 	INSTALL
 	NEWS
-	README
-	README_windows.txt
+	README.md
 	doc/designstyle.css
 	doc/index.html
 	doc/howto.html
