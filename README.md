@@ -25,7 +25,7 @@ and
 Compiling
 ---------
 
-To compile test applications with these classes, run `./configure` followed by
+To compile test applications with these classes, run cmake followed by
 `make` on unixoid platforms like Linux or MacOSX.
 
 To install these header files on your system, run `make install`.
@@ -33,11 +33,20 @@ To install these header files on your system, run `make install`.
 See INSTALL for more details.
 
 This code should work on any modern C++ system. It has been tested on Linux
-(Ubuntu, Fedora, RedHat), Solaris 10 x86, FreeBSD 6.0, OS X 10.3 and 10.4, and
-Windows under both VC++7 and VC++8.
+(Ubuntu, Fedora, RedHat), Solaris 10 x86, FreeBSD 6.0, OS X 10.3 and 10.4, AIX (XL C/C++), HPuX (with boost headers installed) and Windows under both VC++7 and VC++8.
 
 There are a few Windows-specific details; see README.windows for more
 information.
+
+Windows-specific details
+------------------------
+
+Currently, Template::StringToTemplate returns a Template object that
+you, the caller, must free.  We've heard reports that Windows can have
+trouble allocating memory in a .dll that is meant to be freed in the
+application.  Thus, we suggest you not use StringToTemplate from
+Windows.  Instead, you can use Template::StringToTemplateCache()
+followed by Template::GetTemplate().
 
 CTemplate and Threads
 ---------------------
